@@ -1,7 +1,9 @@
 package account.accountproject.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-public class CreateAccount {
+public class DeleteAccount {
 
     @Data
     public static class Request{
@@ -17,9 +19,9 @@ public class CreateAccount {
         @Min(1)
         private Long userId;
 
-        @NotNull
-        @Min(0)
-        private Long initialBalance;
+        @NotBlank
+        @Size(min=10, max=10)
+        private Long accountNumber;
     }
 
     @Data
@@ -29,13 +31,13 @@ public class CreateAccount {
     public static class Response{
         private Long userId;
         private String accountNumber;
-        private LocalDateTime registerAt;
+        private LocalDateTime unRegisterAt;
 
         public static Response from(AccountDto accountDto){
             return Response.builder()
                     .userId(accountDto.getUserId())
                     .accountNumber(accountDto.getAccountNumber())
-                    .registerAt(accountDto.getRegisteredAt())
+                    .unRegisterAt(accountDto.getUnRegisteredAt())
                     .build();
         }
     }
