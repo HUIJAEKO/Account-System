@@ -1,6 +1,8 @@
 package account.accountproject.domain;
 
+import account.accountproject.exception.AccountException;
 import account.accountproject.type.AccountStatus;
+import account.accountproject.type.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,4 +43,11 @@ public class Account {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void useBalance(Long amount){
+        if(amount > balance){
+            throw new AccountException(ErrorCode.AMOUNT_EXCEED_BALANCE);
+        }
+        balance -= amount;
+    }
 }
