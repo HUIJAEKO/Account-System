@@ -1,15 +1,16 @@
 package account.accountproject.controller;
 
+import account.accountproject.dto.AccountInfo;
 import account.accountproject.dto.CreateAccount;
 import account.accountproject.dto.DeleteAccount;
 import account.accountproject.service.AccountService;
 import account.accountproject.service.RedisTestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,5 +40,18 @@ public class AccountController {
                         request.getAccountNumber()
                 )
         );
+    }
+
+    @GetMapping("/account")
+    public List<AccountInfo> getAccountsByUserId(
+            @RequestParam("user_id") Long userId
+    ){
+        return accountService.getAccountsByUserId(userId)
+                .stream().map(accountDto ->
+                        AccountInfo.builder()
+                        .accountNumber(accountDto.getAccountNumber())
+                        .balance(accountDto.getBalance())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
