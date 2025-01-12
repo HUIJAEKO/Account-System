@@ -1,16 +1,15 @@
 package account.accountproject.controller;
 
 import account.accountproject.dto.CancelBalance;
+import account.accountproject.dto.QueryTransactionResponse;
+import account.accountproject.dto.TransactionDto;
 import account.accountproject.dto.UseBalance;
 import account.accountproject.exception.AccountException;
 import account.accountproject.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -59,5 +58,12 @@ public class TransactionController {
             throw e;
         }
         return null;
+    }
+
+    @GetMapping("/transaction/{transactionId}")
+    public TransactionDto queryTransaction(@PathVariable String transactionId){
+        return QueryTransactionResponse.fromEntity(
+                transactionService.queryTransaction(transactionId)
+        );
     }
 }
