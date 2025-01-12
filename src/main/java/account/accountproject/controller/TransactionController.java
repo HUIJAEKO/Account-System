@@ -1,5 +1,6 @@
 package account.accountproject.controller;
 
+import account.accountproject.aop.AccountLock;
 import account.accountproject.dto.CancelBalance;
 import account.accountproject.dto.QueryTransactionResponse;
 import account.accountproject.dto.TransactionDto;
@@ -19,6 +20,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/transaction/use")
+    @AccountLock
     public UseBalance.Response useBalance(
             @Valid @RequestBody UseBalance.Request request
     ){
@@ -39,7 +41,8 @@ public class TransactionController {
         return null;
     }
 
-    @DeleteMapping("/transaction/cancel")
+    @PostMapping("/transaction/cancel")
+    @AccountLock
     public CancelBalance.Response useBalance(
             @Valid @RequestBody CancelBalance.Request request
     ){
