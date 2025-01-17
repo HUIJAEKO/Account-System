@@ -40,6 +40,7 @@ public class AccountService {
                         .accountStatus(AccountStatus.IN_USE)
                         .accountNumber(newAccountNumber)
                         .registeredAt(LocalDateTime.now())
+                        .balance(initialBalance)
                         .build()
         );
 
